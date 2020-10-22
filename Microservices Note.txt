@@ -40,4 +40,4 @@ Spring Cloud
 				
 				
 			
-		2.provide integration with Ribbon(Client Side Load balancing Framework)
+		2.provide integration with Ribbon(Client Side Load balancing Frameworks)
