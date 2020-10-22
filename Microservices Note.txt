@@ -1,0 +1,43 @@
+Spring Cloud
+
+	A)Feign : 
+		1.Alternate of RestTemplate(inter service communication)  Invoking other Microservices.
+		
+			Map<String, String> uriVariables = new HashMap<>();
+			uriVariables.put("from", from);
+			uriVariables.put("to", to);
+			ResponseEntity<CurrencyConversionBean> responseEntity = new RestTemplate().getForEntity("http://localhost:8000//currency-exchange/from/{from}/to/{to}",
+					CurrencyConversionBean.class,
+					uriVariables);
+			CurrencyConversionBean response = responseEntity.getBody();
+			
+			###################################Using Feign#################
+			1. Main Application
+			
+			@SpringBootApplication
+			@EnableFeignClients("com.zenithpoint.microservices.currencyconversionservice")
+			public class CurrencyConversionServiceApplication {
+
+				public static void main(String[] args) {
+					SpringApplication.run(CurrencyConversionServiceApplication.class, args);
+				}
+
+			}
+			
+			2. create proxy of service which we are going to call as > CurrencyExchangeServiceProxy	 :
+			@FeignClient(name = "currency-exchange-service", url = "localhost:8000")
+			public interface CurrencyExchangeServiceProxy {
+				@GetMapping("/currency-exchange/from/{from}/to/{to}")
+				public CurrencyConversionBean retrieveExchangeValue(@PathVariable("from") String from,
+						@PathVariable("to") String to) ;
+				
+			}
+			
+			3. In Controller :
+				@Autowired
+				private CurrencyExchangeServiceProxy currencyExchangeServiceProxy;
+				CurrencyConversionBean response = currencyExchangeServiceProxy.retrieveExchangeValue(from, to);
+				
+				
+			
+		2.provide integration with Ribbon(Client Side Load balancing Framework)
