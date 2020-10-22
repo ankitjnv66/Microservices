@@ -39,5 +39,5 @@ Spring Cloud
 				CurrencyConversionBean response = currencyExchangeServiceProxy.retrieveExchangeValue(from, to);
 				
 				
-			
-		2.provide integration with Ribbon(Client Side load balancing Frameworks)
+			2.provide integration with Ribbon
+		//2.provide integration with Ribbon(Client Side load balancing Frameworks)
